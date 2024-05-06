@@ -18,14 +18,16 @@ def main():
             try:
                 weather_data = fetch_weather_data(api_key='0f33509df08b7bea7f411f2e27c75430', city=city)
 
-                if 'error' in weather_data:
+                if 'success' in weather_data and not weather_data['success']:
                     st.write("Error:", weather_data['error']['info'])
-                else:
+                elif 'current' in weather_data:
                     st.write(f"Weather in {city}:")
                     st.write(f"Temperature: {weather_data['current']['temperature']}°C")
                     st.write(f"Description: {weather_data['current']['weather_descriptions'][0]}")
                     st.write(f"Humidity: {weather_data['current']['humidity']}%")
                     st.write(f"Wind Speed: {weather_data['current']['wind_speed']} m/s")
+                else:
+                    st.write("Error: Unable to fetch weather data. Please try again later.")
 
             except Exception as e:
                 st.write("Error fetching weather data:", e)
