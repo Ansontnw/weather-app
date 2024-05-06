@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-def fetch_weather_data(api_key, city):
+def fetch_weather_data(api_key, city, country):
     url = f"http://api.weatherstack.com/current?access_key={api_key}&query={city},{country}"
     response = requests.get(url)
     data = response.json()
