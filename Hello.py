@@ -14,6 +14,7 @@ def fetch_location_data(api_key, latitude, longitude):
     return data
 
 def main():
+    st.image("https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-512.png", caption='Weather Icon', use_column_width=True)
     st.title("Hello!, Welcome to Weather App")
     st.write("Enter the city name to get the current weather:")
 
