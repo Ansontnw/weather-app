@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 def fetch_weather_data(api_key, city):
-    url = f"http://api.weatherstack.com/current?access_key={api_key}&query={city}"
+    url = f"http://api.weatherstack.com/current?access_key={api_key}&query={city},{country}"
     response = requests.get(url)
     data = response.json()
     return data
@@ -16,7 +16,7 @@ def main():
     if st.button("Search"):
         if city:
             try:
-                weather_data = fetch_weather_data(api_key='0f33509df08b7bea7f411f2e27c75430', city=city)
+                weather_data = fetch_weather_data(api_key='0f33509df08b7bea7f411f2e27c75430', city=city, country='CountryName')
 
                 if 'success' in weather_data and not weather_data['success']:
                     st.write("Error:", weather_data['error']['info'])
