@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from datetime import datetime
 
 # Function to fetch current weather data from OpenWeatherMap
