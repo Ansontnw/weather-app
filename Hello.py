@@ -1,20 +1,23 @@
 import streamlit as st
 import requests
 #import matplotlib.pyplot as plt
-import pandas as pd
+from datetime import datetime
 
+# Function to fetch current weather data from OpenWeatherMap
 def fetch_weather_data(api_key, city):
-    url = f"http://api.weatherstack.com/current?access_key={api_key}&query={city}"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)
     data = response.json()
     return data
 
+# Function to fetch 3-day forecast data from OpenWeatherMap
 def fetch_forecast_data(api_key, city):
-    url = f"http://api.weatherstack.com/forecast?access_key={api_key}&query={city}&forecast_days=3"
+    url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)
     data = response.json()
     return data
 
+# Function to fetch tide data from StormGlass
 def fetch_tide_data(api_key, lat, lng):
     url = f"https://api.stormglass.io/v2/tide/extremes/point?lat={lat}&lng={lng}&start=now&end=24"
     headers = {'Authorization': api_key}
@@ -22,8 +25,9 @@ def fetch_tide_data(api_key, lat, lng):
     data = response.json()
     return data
 
+# Function to plot tide data
 def plot_tide_chart(tide_data):
-    times = [entry['time'] for entry in tide_data['data']]
+    times = [datetime.strptime(entry['time'], '%Y-%m-%dT%H:%M:%S%z') for entry in tide_data['data']]
     heights = [entry['height'] for entry in tide_data['data']]
     
     plt.figure(figsize=(10, 6))
@@ -33,7 +37,7 @@ def plot_tide_chart(tide_data):
     plt.title('Tide Height Over Time')
     plt.xticks(rotation=45)
     plt.tight_layout()
-    st.pyplot()
+    st.pyplot(plt)
 
 def main():
     st.title("Weather, Tide, and Forecast App")
@@ -44,36 +48,44 @@ def main():
     if st.button("Get Weather, Tide & Forecast"):
         if city:
             try:
-                weather_data = fetch_weather_data(api_key='0f33509df08b7bea7f411f2e27c75430', city=city)
-
-                if 'error' in weather_data:
-                    st.write("Error:", weather_data['error']['info'])
+                weather_api_key = '92b2e453a4a1c7c06316d60c9ea301ac'
+                tide_api_key = '5b92ecee-0b4e-11ef-a75c-0242ac130002-5b92ed66-0b4e-11ef-a75c-0242ac130002'
+                
+                # Fetch current weather data
+                weather_data = fetch_weather_data(api_key=weather_api_key, city=city)
+                if weather_data.get('cod') != 200:
+                    st.write("Error:", weather_data.get('message', 'Unable to fetch weather data'))
                 else:
                     st.write(f"Weather in {city}:")
-                    st.write(f"Temperature: {weather_data['current']['temperature']}°C")
-                    st.write(f"Humidity: {weather_data['current']['humidity']}%")
-                    st.write(f"Wind Speed: {weather_data['current']['wind_speed']} m/s")
-
-                forecast_data = fetch_forecast_data(api_key='0f33509df08b7bea7f411f2e27c75430', city=city)
-                if 'error' in forecast_data:
-                    st.write("Error fetching forecast:", forecast_data['error']['info'])
+                    st.write(f"Temperature: {weather_data['main']['temp']}°C")
+                    st.write(f"Description: {weather_data['weather'][0]['description'].capitalize()}")
+                    st.write(f"Humidity: {weather_data['main']['humidity']}%")
+                    st.write(f"Wind Speed: {weather_data['wind']['speed']} m/s")
+                
+                # Fetch 3-day forecast data
+                forecast_data = fetch_forecast_data(api_key=weather_api_key, city=city)
+                if forecast_data.get('cod') != '200':
+                    st.write("Error fetching forecast:", forecast_data.get('message', 'Unable to fetch forecast data'))
                 else:
                     st.write("3-Day Forecast:")
-                    for day in forecast_data['forecast']['forecastday']:
-                        date = day['date']
-                        max_temp = day['day']['maxtemp_c']
-                        min_temp = day['day']['mintemp_c']
-                        condition = day['day']['condition']['text']
-                        st.write(f"Date: {date}, Max Temp: {max_temp}°C, Min Temp: {min_temp}°C, Condition: {condition}")
+                    forecast_list = forecast_data['list']
+                    for i in range(0, 24*3, 8):  # 3 days, 8 three-hour intervals per day
+                        forecast = forecast_list[i]
+                        date = datetime.fromtimestamp(forecast['dt']).strftime('%Y-%m-%d %H:%M:%S')
+                        temp = forecast['main']['temp']
+                        description = forecast['weather'][0]['description'].capitalize()
+                        st.write(f"Date: {date}, Temp: {temp}°C, Condition: {description}")
 
-                if 'location' in weather_data:
-                    lat = weather_data['location']['lat']
-                    lng = weather_data['location']['lon']
-                    tide_data = fetch_tide_data(api_key='5b92ecee-0b4e-11ef-a75c-0242ac130002-5b92ed66-0b4e-11ef-a75c-0242ac130002', lat=lat, lng=lng)
+                # Fetch and plot tide data
+                if 'coord' in weather_data:
+                    lat = weather_data['coord']['lat']
+                    lng = weather_data['coord']['lon']
+                    tide_data = fetch_tide_data(api_key=tide_api_key, lat=lat, lng=lng)
                     if 'data' in tide_data:
                         st.write("Tide Information:")
                         for entry in tide_data['data']:
-                            st.write(f"Time: {entry['time']}, Height: {entry['height']} meters")
+                            time = datetime.strptime(entry['time'], '%Y-%m-%dT%H:%M:%S%z').strftime('%Y-%m-%d %H:%M:%S')
+                            st.write(f"Time: {time}, Height: {entry['height']} meters")
                         plot_tide_chart(tide_data)
                     else:
                         st.write("No tide data available")
