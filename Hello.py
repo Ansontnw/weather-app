@@ -9,12 +9,6 @@ def fetch_weather_data(api_key, city):
     data = response.json()
     return data
 
-def fetch_location_data(api_key, latitude, longitude):
-    url = f"http://api.weatherstack.com/current?access_key={api_key}&query={latitude},{longitude}"
-    response = requests.get(url)
-    data = response.json()
-    return data
-
 def fetch_forecast_data(api_key, city):
     url = f"http://api.weatherstack.com/forecast?access_key={api_key}&query={city}&forecast_days=3"
     response = requests.get(url)
@@ -40,24 +34,23 @@ def plot_tide_chart(tide_data):
     plt.xticks(rotation=45)
     plt.tight_layout()
     st.pyplot()
-    
+
 def main():
-    st.image("https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-512.png", width=200)
-    st.title("Hello!, Welcome to Weather App")
-    st.write("Enter the city name to get the current weather:")
+    st.title("Weather, Tide, and Forecast App")
+    st.write("Enter the city name to get the current weather, tide information, and 3-day forecast:")
 
     city = st.text_input("City")
 
-    if st.button("Search"):
+    if st.button("Get Weather, Tide & Forecast"):
         if city:
             try:
                 weather_data = fetch_weather_data(api_key='0f33509df08b7bea7f411f2e27c75430', city=city)
+
                 if 'error' in weather_data:
                     st.write("Error:", weather_data['error']['info'])
                 else:
-                    st.write(f"Weather in {weather_data['location']['name']}, {weather_data['location']['region']}, {weather_data['location']['country']}:")
+                    st.write(f"Weather in {city}:")
                     st.write(f"Temperature: {weather_data['current']['temperature']}°C")
-                    st.write(f"Description: {weather_data['current']['weather_descriptions'][0]}")
                     st.write(f"Humidity: {weather_data['current']['humidity']}%")
                     st.write(f"Wind Speed: {weather_data['current']['wind_speed']} m/s")
 
@@ -72,7 +65,7 @@ def main():
                         min_temp = day['day']['mintemp_c']
                         condition = day['day']['condition']['text']
                         st.write(f"Date: {date}, Max Temp: {max_temp}°C, Min Temp: {min_temp}°C, Condition: {condition}")
-                    
+
                 if 'location' in weather_data:
                     lat = weather_data['location']['lat']
                     lng = weather_data['location']['lon']
@@ -84,9 +77,9 @@ def main():
                         plot_tide_chart(tide_data)
                     else:
                         st.write("No tide data available")
-
+                
             except Exception as e:
-                st.write("Error fetching weather data:", e)
+                st.write("Error fetching data:", e)
         else:
             st.write("Please enter a city name")
 
