@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from datetime import datetime
 
 # Function to fetch current weather data from OpenWeatherMap
@@ -48,7 +48,7 @@ def main():
     if st.button("Get Weather, Tide & Forecast"):
         if city:
             try:
-                weather_api_key = '92b2e453a4a1c7c06316d60c9ea301ac'
+                weather_api_key = '4b379742cc1a830521251caf970d231e'
                 tide_api_key = '5b92ecee-0b4e-11ef-a75c-0242ac130002-5b92ed66-0b4e-11ef-a75c-0242ac130002'
                 
                 # Fetch current weather data
