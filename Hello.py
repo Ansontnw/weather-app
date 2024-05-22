@@ -1,6 +1,5 @@
 import streamlit as st
 import requests
-#import matplotlib.pyplot as plt
 from datetime import datetime
 
 # Function to fetch current weather data from OpenWeatherMap
@@ -24,20 +23,6 @@ def fetch_tide_data(api_key, lat, lng):
     response = requests.get(url, headers=headers)
     data = response.json()
     return data
-
-# Function to plot tide data
-def plot_tide_chart(tide_data):
-    times = [datetime.strptime(entry['time'], '%Y-%m-%dT%H:%M:%S%z') for entry in tide_data['data']]
-    heights = [entry['height'] for entry in tide_data['data']]
-    
-    plt.figure(figsize=(10, 6))
-    plt.plot(times, heights, marker='o', linestyle='-')
-    plt.xlabel('Time')
-    plt.ylabel('Tide Height (meters)')
-    plt.title('Tide Height Over Time')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    st.pyplot(plt)
 
 def main():
     st.title("Weather, Tide, and Forecast App")
@@ -69,14 +54,14 @@ def main():
                 else:
                     st.write("3-Day Forecast:")
                     forecast_list = forecast_data['list']
-                    for i in range(0, 24*3, 8):  # 3 days, 8 three-hour intervals per day
+                    for i in range(0, min(len(forecast_list), 24*3), 8):  # 3 days, 8 three-hour intervals per day
                         forecast = forecast_list[i]
                         date = datetime.fromtimestamp(forecast['dt']).strftime('%Y-%m-%d %H:%M:%S')
                         temp = forecast['main']['temp']
                         description = forecast['weather'][0]['description'].capitalize()
                         st.write(f"Date: {date}, Temp: {temp}°C, Condition: {description}")
 
-                # Fetch and plot tide data
+                # Fetch tide data
                 if 'coord' in weather_data:
                     lat = weather_data['coord']['lat']
                     lng = weather_data['coord']['lon']
@@ -86,7 +71,6 @@ def main():
                         for entry in tide_data['data']:
                             time = datetime.strptime(entry['time'], '%Y-%m-%dT%H:%M:%S%z').strftime('%Y-%m-%d %H:%M:%S')
                             st.write(f"Time: {time}, Height: {entry['height']} meters")
-                        plot_tide_chart(tide_data)
                     else:
                         st.write("No tide data available")
                 
