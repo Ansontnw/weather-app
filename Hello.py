@@ -56,7 +56,7 @@ def main():
                     st.write("3-Day Forecast:")
                     forecast_list = forecast_data['list']
                     forecast_df = pd.DataFrame(forecast_list)
-                    forecast_df['dt'] = pd.to_datetime(forecast_df['dt'], unit='s')
+                    st.write(forecast_df.head())  # Debugging statement to inspect DataFrame structure
                     st.line_chart(forecast_df.set_index('dt')['main.temp'])
 
                 # Fetch tide data
