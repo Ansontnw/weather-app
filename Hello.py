@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
-#import matplotlib.pyplot as plt
-import pandas as pd
+import matplotlib.pyplot as plt
 
 def fetch_weather_data(api_key, city):
     url = f"http://api.weatherstack.com/current?access_key={api_key}&query={city}"
@@ -33,7 +32,7 @@ def plot_tide_chart(tide_data):
     plt.title('Tide Height Over Time')
     plt.xticks(rotation=45)
     plt.tight_layout()
-    st.pyplot()
+    st.pyplot(plt)
 
 def main():
     st.title("Weather, Tide, and Forecast App")
@@ -45,26 +44,24 @@ def main():
         if city:
             try:
                 weather_data = fetch_weather_data(api_key='0f33509df08b7bea7f411f2e27c75430', city=city)
-
-                if 'error' in weather_data:
+                if 'success' in weather_data and not weather_data['success']:
                     st.write("Error:", weather_data['error']['info'])
-                else:
+                elif 'current' in weather_data:
                     st.write(f"Weather in {city}:")
                     st.write(f"Temperature: {weather_data['current']['temperature']}°C")
+                    st.write(f"Description: {weather_data['current']['weather_descriptions'][0]}")
                     st.write(f"Humidity: {weather_data['current']['humidity']}%")
                     st.write(f"Wind Speed: {weather_data['current']['wind_speed']} m/s")
-
+                else:
+                    st.write("Error: Unable to fetch weather data. Please try again later.")
+                
                 forecast_data = fetch_forecast_data(api_key='0f33509df08b7bea7f411f2e27c75430', city=city)
                 if 'error' in forecast_data:
                     st.write("Error fetching forecast:", forecast_data['error']['info'])
                 else:
                     st.write("3-Day Forecast:")
-                    for day in forecast_data['forecast']['forecastday']:
-                        date = day['date']
-                        max_temp = day['day']['maxtemp_c']
-                        min_temp = day['day']['mintemp_c']
-                        condition = day['day']['condition']['text']
-                        st.write(f"Date: {date}, Max Temp: {max_temp}°C, Min Temp: {min_temp}°C, Condition: {condition}")
+                    for date, forecast in forecast_data['forecast'].items():
+                        st.write(f"Date: {date}, Max Temp: {forecast['maxtemp']}°C, Min Temp: {forecast['mintemp']}°C, Condition: {forecast['weather_descriptions'][0]}")
 
                 if 'location' in weather_data:
                     lat = weather_data['location']['lat']
