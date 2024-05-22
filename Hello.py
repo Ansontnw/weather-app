@@ -1,8 +1,6 @@
 import streamlit as st
 import requests
 from datetime import datetime
-import pandas as pd
-import matplotlib.pyplot as plt
 
 # Function to fetch current weather data from OpenWeatherMap
 def fetch_weather_data(api_key, city):
@@ -34,7 +32,7 @@ def fetch_tide_data(api_key, lat, lng):
     return data
 
 def main():
-    st.title("Weather, UV Index, Tide, and Forecast App")
+    st.title("Weather, Tide, and Forecast App")
     st.write("Enter the city name to get the current weather, UV index, tide information, and 3-day forecast:")
 
     city = st.text_input("City")
@@ -83,19 +81,9 @@ def main():
                     tide_data = fetch_tide_data(api_key=tide_api_key, lat=lat, lng=lng)
                     if 'data' in tide_data:
                         st.write("Tide Information:")
-                        tide_times = []
-                        tide_heights = []
                         for entry in tide_data['data']:
                             time = datetime.strptime(entry['time'], '%Y-%m-%dT%H:%M:%S%z').strftime('%Y-%m-%d %H:%M:%S')
-                            tide_times.append(time)
-                            tide_heights.append(entry['height'])
                             st.write(f"Time: {time}, Height: {entry['height']} meters")
-                        
-                        # Create tide chart
-                        tide_df = pd.DataFrame({'Time': tide_times, 'Height': tide_heights})
-                        tide_df['Time'] = pd.to_datetime(tide_df['Time'])
-                        tide_df.set_index('Time', inplace=True)
-                        st.line_chart(tide_df['Height'])
                     else:
                         st.write("No tide data available")
                 
