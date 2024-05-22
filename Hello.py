@@ -16,6 +16,13 @@ def fetch_forecast_data(api_key, city):
     data = response.json()
     return data
 
+# Function to fetch UV index data from OpenWeatherMap
+def fetch_uv_index(api_key, lat, lon):
+    url = f"http://api.openweathermap.org/data/2.5/uvi?lat={lat}&lon={lon}&appid={api_key}"
+    response = requests.get(url)
+    data = response.json()
+    return data
+
 # Function to fetch tide data from StormGlass
 def fetch_tide_data(api_key, lat, lng):
     url = f"https://api.stormglass.io/v2/tide/extremes/point?lat={lat}&lng={lng}&start=now&end=now+3d"
@@ -26,11 +33,11 @@ def fetch_tide_data(api_key, lat, lng):
 
 def main():
     st.title("Weather, Tide, and Forecast App")
-    st.write("Enter the city name to get the current weather, tide information, and 3-day forecast:")
+    st.write("Enter the city name to get the current weather, UV index, tide information, and 3-day forecast:")
 
     city = st.text_input("City")
 
-    if st.button("Get Weather, Tide & Forecast"):
+    if st.button("Get Weather, UV, Tide & Forecast"):
         if city:
             try:
                 weather_api_key = '4b379742cc1a830521251caf970d231e'
@@ -46,7 +53,13 @@ def main():
                     st.write(f"Description: {weather_data['weather'][0]['description'].capitalize()}")
                     st.write(f"Humidity: {weather_data['main']['humidity']}%")
                     st.write(f"Wind Speed: {weather_data['wind']['speed']} m/s")
-                
+
+                    # Fetch UV index data
+                    lat = weather_data['coord']['lat']
+                    lon = weather_data['coord']['lon']
+                    uv_data = fetch_uv_index(api_key=weather_api_key, lat=lat, lon=lon)
+                    st.write(f"UV Index: {uv_data['value']}")
+
                 # Fetch 3-day forecast data
                 forecast_data = fetch_forecast_data(api_key=weather_api_key, city=city)
                 if forecast_data.get('cod') != '200':
