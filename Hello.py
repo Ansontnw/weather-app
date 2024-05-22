@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
 from datetime import datetime
-import pandas as pd
 
 # Function to fetch current weather data from OpenWeatherMap
 def fetch_weather_data(api_key, city):
@@ -55,9 +54,12 @@ def main():
                 else:
                     st.write("3-Day Forecast:")
                     forecast_list = forecast_data['list']
-                    forecast_df = pd.DataFrame(forecast_list)
-                    st.write(forecast_df.head())  # Debugging statement to inspect DataFrame structure
-                    st.line_chart(forecast_df.set_index('dt')['main.temp'])
+                    for i in range(0, min(len(forecast_list), 24*3), 8):  # 3 days, 8 three-hour intervals per day
+                        forecast = forecast_list[i]
+                        date = datetime.fromtimestamp(forecast['dt']).strftime('%Y-%m-%d %H:%M:%S')
+                        temp = forecast['main']['temp']
+                        description = forecast['weather'][0]['description'].capitalize()
+                        st.write(f"Date: {date}, Temp: {temp}°C, Condition: {description}")
 
                 # Fetch tide data
                 if 'coord' in weather_data:
