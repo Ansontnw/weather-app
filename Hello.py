@@ -19,7 +19,7 @@ def fetch_forecast_data(api_key, city):
 
 # Function to fetch tide data from StormGlass
 def fetch_tide_data(api_key, lat, lng):
-    url = f"https://api.stormglass.io/v2/tide/extremes/point?lat={lat}&lng={lng}&start=now&end=24"
+    url = f"https://api.stormglass.io/v2/tide/extremes/point?lat={lat}&lng={lng}&start=now&end=now+3d"
     headers = {'Authorization': api_key}
     response = requests.get(url, headers=headers)
     data = response.json()
