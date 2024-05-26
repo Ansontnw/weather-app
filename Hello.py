@@ -16,9 +16,15 @@ def fetch_forecast_data(api_key, city):
     data = response.json()
     return data
 
+def fetch_uv_index(api_key, lat, lon):
+    url = f"http://api.openweathermap.org/data/2.5/uvi?appid={api_key}&lat={lat}&lon={lon}"
+    response = requests.get(url)
+    data = response.json()
+    return data
+
 def main():
     st.image(icon_url, width=100)
-    st.title("Hello!, Welcome to Weather App")
+    st.title("Hello! Welcome to the Weather App")
     st.write("Enter the city name to get the weather data:")
 
     city = st.text_input("City")
@@ -26,8 +32,9 @@ def main():
     if st.button("Search"):
         if city:
             try:
-                weather_data = fetch_weather_data(api_key='4b379742cc1a830521251caf970d231e', city=city)
-                forecast_data = fetch_forecast_data(api_key='4b379742cc1a830521251caf970d231e', city=city)
+                api_key = '4b379742cc1a830521251caf970d231e'
+                weather_data = fetch_weather_data(api_key, city)
+                forecast_data = fetch_forecast_data(api_key, city)
 
                 if weather_data.get('cod') != 200:
                     st.write("Error:", weather_data.get('message', 'Failed to retrieve data'))
@@ -37,6 +44,14 @@ def main():
                     st.write(f"Description: {weather_data['weather'][0]['description'].capitalize()}")
                     st.write(f"Humidity: {weather_data['main']['humidity']}%")
                     st.write(f"Wind Speed: {weather_data['wind']['speed']} m/s")
+                    
+                    lat = weather_data['coord']['lat']
+                    lon = weather_data['coord']['lon']
+                    uv_data = fetch_uv_index(api_key, lat, lon)
+                    if 'value' in uv_data:
+                        st.write(f"UV Index: {uv_data['value']}")
+                    else:
+                        st.write("Failed to retrieve UV index data")
 
                     if forecast_data.get('cod') != "200":
                         st.write("Error:", forecast_data.get('message', 'Failed to retrieve forecast data'))
