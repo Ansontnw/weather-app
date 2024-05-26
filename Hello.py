@@ -74,7 +74,7 @@ def main():
                                 dates.append(dt)
                                 temperatures.append(forecast['main']['temp'])
                                 
-                        data = pd.DataFrame({'Date':dates, 'Temperature':temperature})
+                        data = pd.DataFrame({'Date':dates, 'Temperature':temperatures})
                         st.line_chart(data.set_index('Date'))
 
             except Exception as e:
