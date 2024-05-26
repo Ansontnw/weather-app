@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from datetime import datetime
+import plotly.graph_objects as go
 
 icon_url = "https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-512.png"
 
@@ -57,15 +58,31 @@ def main():
                         st.write("Error:", forecast_data.get('message', 'Failed to retrieve forecast data'))
                     else:
                         st.header("5-Day Forecast:")
+                        
+                        dates = []
+                        temps = []
+
                         for forecast in forecast_data['list']:
                             dt = datetime.fromtimestamp(forecast['dt'])
                             if dt.hour == 12:  # Show forecast for noon each day
+                                dates.append(dt.strftime('%Y-%m-%d'))
+                                temps.append(forecast['main']['temp'])
                                 st.write(f"{dt.strftime('%Y-%m-%d %H:%M:%S')}:")
                                 st.write(f"Temperature: {forecast['main']['temp']}°C")
                                 st.write(f"Description: {forecast['weather'][0]['description'].capitalize()}")
                                 st.write(f"Humidity: {forecast['main']['humidity']}%")
                                 st.write(f"Wind Speed: {forecast['wind']['speed']} m/s")
                                 st.write("---")
+                        
+                        # Plotting the temperature graph
+                        fig = go.Figure(data=go.Scatter(x=dates, y=temps, mode='lines+markers'))
+                        fig.update_layout(
+                            title='5-Day Forecast Temperatures at Noon',
+                            xaxis_title='Date',
+                            yaxis_title='Temperature (°C)',
+                            template='plotly_dark'
+                        )
+                        st.plotly_chart(fig)
 
             except Exception as e:
                 st.write("Error fetching weather data:", e)
