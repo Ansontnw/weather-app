@@ -56,7 +56,7 @@ def main():
                     if forecast_data.get('cod') != "200":
                         st.write("Error:", forecast_data.get('message', 'Failed to retrieve forecast data'))
                     else:
-                        st.write("5-Day Forecast:")
+                        st.subtitle("5-Day Forecast:")
                         for forecast in forecast_data['list']:
                             dt = datetime.fromtimestamp(forecast['dt'])
                             if dt.hour == 12:  # Show forecast for noon each day
