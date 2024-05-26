@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 from datetime import datetime
 
 icon_url = "https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-512.png"
@@ -57,6 +58,10 @@ def main():
                         st.write("Error:", forecast_data.get('message', 'Failed to retrieve forecast data'))
                     else:
                         st.header("5-Day Forecast:")
+
+                        dates = []
+                        temperatures = []
+                        
                         for forecast in forecast_data['list']:
                             dt = datetime.fromtimestamp(forecast['dt'])
                             if dt.hour == 12:  # Show forecast for noon each day
@@ -66,6 +71,11 @@ def main():
                                 st.write(f"Humidity: {forecast['main']['humidity']}%")
                                 st.write(f"Wind Speed: {forecast['wind']['speed']} m/s")
                                 st.write("---")
+                                dates.append(dt)
+                                temperature.append(forecast['main']['temp'])
+                                
+                        data = pd.DataFrame({'Date':dates, 'Temperature':temperature})
+                        st.line_chart(data.set_index('Date'))
 
             except Exception as e:
                 st.write("Error fetching weather data:", e)
