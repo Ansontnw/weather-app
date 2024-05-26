@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 from datetime import datetime
 
+icon_url = "https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-512.png"
+
 def fetch_weather_data(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)
@@ -15,6 +17,7 @@ def fetch_forecast_data(api_key, city):
     return data
 
 def main():
+    st.image(icon_url, width=100)
     st.title("Hello!, Welcome to Weather App")
     st.write("Enter the city name to get the weather data:")
 
