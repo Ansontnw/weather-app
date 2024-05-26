@@ -16,7 +16,7 @@ def fetch_forecast_data(api_key, city):
 
 def main():
     st.title("Hello!, Welcome to Weather App")
-    st.write("Enter the city name to get the current weather and 5-day forecast:")
+    st.write("Enter the city name to get the weather data:")
 
     city = st.text_input("City")
 
