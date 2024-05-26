@@ -72,7 +72,7 @@ def main():
                                 st.write(f"Wind Speed: {forecast['wind']['speed']} m/s")
                                 st.write("---")
                                 dates.append(dt)
-                                temperature.append(forecast['main']['temp'])
+                                temperatures.append(forecast['main']['temp'])
                                 
                         data = pd.DataFrame({'Date':dates, 'Temperature':temperature})
                         st.line_chart(data.set_index('Date'))
