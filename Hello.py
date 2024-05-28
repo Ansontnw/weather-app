@@ -45,6 +45,8 @@ def main():
                     st.write(f"Description: {weather_data['weather'][0]['description'].capitalize()}")
                     st.write(f"Humidity: {weather_data['main']['humidity']}%")
                     st.write(f"Wind Speed: {weather_data['wind']['speed']} m/s")
+                    st.write(f"Latitude: {lat}")
+                    st.write(f"Longitude: {lon}")
                     
                     lat = weather_data['coord']['lat']
                     lon = weather_data['coord']['lon']
