@@ -44,8 +44,8 @@ def main():
             try:
                 weather_api_key = '4b379742cc1a830521251caf970d231e'
                 stormglass_api_key = '5b92ecee-0b4e-11ef-a75c-0242ac130002-5b92ed66-0b4e-11ef-a75c-0242ac130002'
-                weather_data = fetch_weather_data(api_key, city)
-                forecast_data = fetch_forecast_data(api_key, city)
+                weather_data = fetch_weather_data(weather_api_key, city)
+                forecast_data = fetch_forecast_data(weather_api_key, city)
 
                 if weather_data.get('cod') != 200:
                     st.write("Error:", weather_data.get('message', 'Failed to retrieve data'))
@@ -60,7 +60,7 @@ def main():
                     lon = weather_data['coord']['lon']
                     st.write(f"Latitude: {lat}")
                     st.write(f"Longitude: {lon}")
-                    uv_data = fetch_uv_index(api_key, lat, lon)
+                    uv_data = fetch_uv_index(weather_api_key, lat, lon)
                     if 'value' in uv_data:
                         st.write(f"UV Index: {uv_data['value']}")
                     else:
