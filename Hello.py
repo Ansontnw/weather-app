@@ -23,6 +23,15 @@ def fetch_uv_index(api_key, lat, lon):
     data = response.json()
     return data
 
+def fetch_tide_data(api_key, lat, lon):
+    headers = {
+        'Authorization': api_key
+    }
+    url = f"https://api.stormglass.io/v2/tide/extremes/point?lat={lat}&lng={lon}"
+    response = requests.get(url, headers=headers)
+    data = response.json()
+    return data
+    
 def main():
     st.image(icon_url, width=100)
     st.title("Hello! Welcome to the Weather App")
@@ -33,7 +42,8 @@ def main():
     if st.button("Search"):
         if city:
             try:
-                api_key = '4b379742cc1a830521251caf970d231e'
+                weather_api_key = '4b379742cc1a830521251caf970d231e'
+                stormglass_api_key = '5b92ecee-0b4e-11ef-a75c-0242ac130002-5b92ed66-0b4e-11ef-a75c-0242ac130002'
                 weather_data = fetch_weather_data(api_key, city)
                 forecast_data = fetch_forecast_data(api_key, city)
 
@@ -55,6 +65,16 @@ def main():
                         st.write(f"UV Index: {uv_data['value']}")
                     else:
                         st.write("Failed to retrieve UV index data")
+                    
+                    tide_data = fetch_tide_data(stormglass_api_key, lat, lon)
+                    if 'data' in tide_data:
+                        st.header("Tide Information:")
+                        for tide in tide_data['data']:
+                            tide_time = datetime.fromisoformat(tide['time'][:-1]).strftime('%Y-%m-%d %H:%M:%S')
+                            tide_type = tide['type']
+                            st.write(f"Time: {tide_time}, Type: {tide_type.capitalize()}")
+                    else:
+                        st.write("Failed to retrieve tide data")
 
                     if forecast_data.get('cod') != "200":
                         st.write("Error:", forecast_data.get('message', 'Failed to retrieve forecast data'))
