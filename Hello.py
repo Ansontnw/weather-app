@@ -70,7 +70,7 @@ def main():
                     if 'data' in tide_data:
                         st.header("Tide Information:")
                         for tide in tide_data['data']:
-                            tide_time = datetime.fromisoformat(tide['time'][:-1]).strftime('%Y-%m-%d %H:%M:%S')
+                            tide_time = datetime.fromisoformat(tide['time'].replace('Z', '+00:00')).strftime('%Y-%m-%d %H:%M:%S')
                             tide_type = tide['type']
                             st.write(f"Time: {tide_time}, Type: {tide_type.capitalize()}")
                     else:
