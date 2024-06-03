@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-icon_path = "https://cdn.lordicon.com/dnoiydox.json"
+image_url = "https://img.freepik.com/free-psd/3d-icon-weather-conditions-with-rain-sun_23-2150108737.jpg?size=338&ext=jpg&ga=GA1.1.44546679.1716508800&semt=ais_user"
 
 def fetch_weather_data(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
@@ -33,7 +33,7 @@ def fetch_tide_data(api_key, lat, lon):
     return data
     
 def main():
-    st.image(icon_path, width=100)
+    st.image(image_url, width=100)
     st.title("Hello! Welcome to the Weather App")
     st.write("Enter the city name to get the weather data:")
 
