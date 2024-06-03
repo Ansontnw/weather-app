@@ -2,13 +2,8 @@ import streamlit as st
 import requests
 import pandas as pd
 from datetime import datetime
-from streamlit_lottie import st_lottie
 
-def load_lottieurl(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
+icon_path = "path/to/your/local/icon.png"
 
 def fetch_weather_data(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
@@ -38,10 +33,7 @@ def fetch_tide_data(api_key, lat, lon):
     return data
     
 def main():
-    lottie_url = "https://assets9.lottiefiles.com/packages/lf20_5gqrejwv.json"
-    lottie_json = load_lottieurl(lottie_url)
-    if lottie_json:
-        st_lottie(lottie_json, key="weather")
+    st.image(icon_path, width=100)
     st.title("Hello! Welcome to the Weather App")
     st.write("Enter the city name to get the weather data:")
 
