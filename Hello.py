@@ -5,24 +5,28 @@ from datetime import datetime
 
 image_url = "https://img.freepik.com/free-psd/3d-icon-weather-conditions-with-rain-sun_23-2150108737.jpg?size=338&ext=jpg&ga=GA1.1.44546679.1716508800&semt=ais_user"
 
+#Define Wheather Data use Openweathermap API
 def fetch_weather_data(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)
     data = response.json()
     return data
 
+#Define Forecast Data use Openweathermap API
 def fetch_forecast_data(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)
     data = response.json()
     return data
 
+#Define UV Data use Openweathermap API
 def fetch_uv_index(api_key, lat, lon):
     url = f"http://api.openweathermap.org/data/2.5/uvi?appid={api_key}&lat={lat}&lon={lon}"
     response = requests.get(url)
     data = response.json()
     return data
 
+#Define Tide Data use Stromglass API
 def fetch_tide_data(api_key, lat, lon):
     headers = {
         'Authorization': api_key
