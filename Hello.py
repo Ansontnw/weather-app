@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-icon_url = "https://www.freepik.com/icon/weather-app_3845731"
+icon_url = "YOUR_NEW_IMAGE_URL_HERE"
 
 def fetch_weather_data(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
