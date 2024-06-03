@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-icon_url = "https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-512.png"
+icon_url = "https://www.google.com/imgres?q=weather%20icon&imgurl=https%3A%2F%2Fcdn-icons-png.freepik.com%2F512%2F3845%2F3845731.png&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Ficon%2Fweather-app_3845731&docid=mydzsrUChBPYhM&tbnid=CPSnwJlk6XXeJM&vet=12ahUKEwiA2uvQsr6GAxXtUGwGHWWSDt4QM3oFCIYBEAA..i&w=512&h=512&hcb=2&ved=2ahUKEwiA2uvQsr6GAxXtUGwGHWWSDt4QM3oFCIYBEAA"
 
 def fetch_weather_data(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
@@ -71,12 +71,12 @@ def main():
                         st.header("Tide Information:")
                         tide_times = []
                         tide_heights = []
-                        for tide in tide_data['data']:
-                            tide_time = datetime.fromisoformat(tide['time'].replace('Z', '+00:00'))
-                            tide_height = tide['height']
-                            st.write(f"Time: {tide_time.strftime('%Y-%m-%d %H:%M:%S')}, Height: {tide_height} meters")
-                            tide_times.append(tide_time)
-                            tide_heights.append(tide_height)
+                        #for tide in tide_data['data']:
+                            #tide_time = datetime.fromisoformat(tide['time'].replace('Z', '+00:00'))
+                            #tide_height = tide['height']
+                            #st.write(f"Time: {tide_time.strftime('%Y-%m-%d %H:%M:%S')}, Height: {tide_height} meters")
+                            #tide_times.append(tide_time)
+                            #tide_heights.append(tide_height)
 
                         tide_data_df = pd.DataFrame({'Time': tide_times, 'Tide Height': tide_heights})
                         st.line_chart(tide_data_df.set_index('Time'))
