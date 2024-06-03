@@ -71,12 +71,12 @@ def main():
                         st.header("Tide Information:")
                         tide_times = []
                         tide_heights = []
-                        #for tide in tide_data['data']:
-                            #tide_time = datetime.fromisoformat(tide['time'].replace('Z', '+00:00'))
-                            #tide_height = tide['height']
+                        for tide in tide_data['data']:
+                            tide_time = datetime.fromisoformat(tide['time'].replace('Z', '+00:00'))
+                            tide_height = tide['height']
                             #st.write(f"Time: {tide_time.strftime('%Y-%m-%d %H:%M:%S')}, Height: {tide_height} meters")
-                            #tide_times.append(tide_time)
-                            #tide_heights.append(tide_height)
+                            tide_times.append(tide_time)
+                            tide_heights.append(tide_height)
 
                         tide_data_df = pd.DataFrame({'Time': tide_times, 'Tide Height': tide_heights})
                         st.line_chart(tide_data_df.set_index('Time'))
