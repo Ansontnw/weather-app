@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-icon_url = "https://www.google.com/imgres?q=weather%20icon&imgurl=https%3A%2F%2Fcdn-icons-png.freepik.com%2F512%2F3845%2F3845731.png&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Ficon%2Fweather-app_3845731&docid=mydzsrUChBPYhM&tbnid=CPSnwJlk6XXeJM&vet=12ahUKEwiA2uvQsr6GAxXtUGwGHWWSDt4QM3oFCIYBEAA..i&w=512&h=512&hcb=2&ved=2ahUKEwiA2uvQsr6GAxXtUGwGHWWSDt4QM3oFCIYBEAA"
+icon_url = "https://www.freepik.com/icon/weather-app_3845731"
 
 def fetch_weather_data(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
