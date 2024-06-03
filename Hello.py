@@ -69,7 +69,7 @@ def main():
                     tide_data = fetch_tide_data(stormglass_api_key, lat, lon)
                     if 'data' in tide_data:
                         st.header("Tide Information:")
-                        ide_times = []
+                        tide_times = []
                         tide_heights = []
                         for tide in tide_data['data']:
                             tide_time = datetime.fromisoformat(tide['time'].replace('Z', '+00:00'))
