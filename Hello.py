@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-icon_path = ""https://cdn.lordicon.com/dnoiydox.json"
+icon_path = "https://cdn.lordicon.com/dnoiydox.json"
 
 def fetch_weather_data(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
