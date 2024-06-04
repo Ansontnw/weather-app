@@ -37,6 +37,7 @@ def fetch_tide_data(api_key, lat, lon):
     return data
     
 def main():
+    st.sidebar.header("Hello! Welcome to the Weather App")
     st.image(image_url, width=100)
     st.title("Hello! Welcome to the Weather App")
     st.write("Enter the city name to get the weather data:")
