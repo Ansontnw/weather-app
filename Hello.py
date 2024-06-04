@@ -54,6 +54,7 @@ def main():
                 if weather_data.get('cod') != 200:
                     st.write("Error:", weather_data.get('message', 'Failed to retrieve data'))
                 else:
+                    st.header("Current Weather Information")
                     st.write(f"Weather in {weather_data['name']}, {weather_data['sys']['country']}:")
                     st.write(f"Temperature: {weather_data['main']['temp']}°C")
                     st.write(f"Description: {weather_data['weather'][0]['description'].capitalize()}")
