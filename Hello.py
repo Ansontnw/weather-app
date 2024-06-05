@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-#image_url = "https://img.freepik.com/free-psd/3d-icon-weather-conditions-with-rain-sun_23-2150108737.jpg?size=338&ext=jpg&ga=GA1.1.44546679.1716508800&semt=ais_user"
+image_url = "https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-512.png"
 
 #Define Wheather Data use Openweathermap API
 def fetch_weather_data(api_key, city):
@@ -37,19 +37,6 @@ def fetch_tide_data(api_key, lat, lon):
     return data
     
 def main():
-    image_url = "https://unblast.com/wp-content/uploads/2019/08/Weather-Icons.jpg"
-    
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background: url("{image_url}");
-            background-size: cover
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
     st.sidebar.image(image_url, width=100)
     st.sidebar.title("Hello! Welcome to the Weather App")
     st.sidebar.write("Enter the city name to get the weather data:")
