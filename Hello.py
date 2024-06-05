@@ -38,6 +38,7 @@ def fetch_tide_data(api_key, lat, lon):
     
 def main():
     #Background Image
+    '''
     background_image = """
         <style>
         [data-testid="stAppViewContainer"] > .main {
@@ -51,6 +52,8 @@ def main():
         """
     #Print Background Image
     st.markdown(background_image, unsafe_allow_html=True)
+    '''
+    
     st.sidebar.image(image_url, width=100)
     st.sidebar.title("Hello! Welcome to the Weather App")
     st.sidebar.write("Enter the city name to get the weather data:")
