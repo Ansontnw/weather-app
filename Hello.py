@@ -40,7 +40,7 @@ def main():
     background_image = """
         <style>
         [data-testid="stAppViewContainer"] > .main {
-            background-image: url("https://static.vecteezy.com/system/resources/previews/011/635/815/non_2x/abstract-money-transfer-online-currency-on-background-modern-blue-concept-arrow-global-money-movement-currency-exchange-dollar-euro-yen-vector.jpg");
+            background-image: url("https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-512.png");
             background-size: 100vw 100vh;  # This sets the size to cover 100% of the viewport width and height
             background-position: center;
             background-repeat: no-repeat;
