@@ -37,6 +37,19 @@ def fetch_tide_data(api_key, lat, lon):
     return data
     
 def main():
+    background_image = """
+        <style>
+        [data-testid="stAppViewContainer"] > .main {
+            background-image: url("https://static.vecteezy.com/system/resources/previews/011/635/815/non_2x/abstract-money-transfer-online-currency-on-background-modern-blue-concept-arrow-global-money-movement-currency-exchange-dollar-euro-yen-vector.jpg");
+            background-size: 100vw 100vh;  # This sets the size to cover 100% of the viewport width and height
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+        }
+        </style>
+        """
+
+    st.markdown(background_image, unsafe_allow_html=True)
     st.sidebar.image(image_url, width=100)
     st.sidebar.title("Hello! Welcome to the Weather App")
     st.sidebar.write("Enter the city name to get the weather data:")
