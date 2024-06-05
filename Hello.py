@@ -40,7 +40,7 @@ def main():
     background_image = """
         <style>
         [data-testid="stAppViewContainer"] > .main {
-            background-image: url("https://cdn2.iconfinder.com/data/icons/weather-flat-14/64/weather02-512.png");
+            background-image: url("https://unblast.com/wp-content/uploads/2018/06/Weather-Icons.jpg");
             background-size: 100vw 100vh;  # This sets the size to cover 100% of the viewport width and height
             background-position: center;
             background-repeat: no-repeat;
