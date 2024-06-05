@@ -116,7 +116,8 @@ def main():
                                 st.write("---")
                                 dates.append(dt)
                                 temperatures.append(forecast['main']['temp'])
-                        
+
+                                st.header("Temperature Information:")
                         # Date = Paksi X, Temperature = Paksi Y        
                         data = pd.DataFrame({'Date':dates, 'Temperature':temperatures})
                         st.line_chart(data.set_index('Date'))
