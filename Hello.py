@@ -37,23 +37,6 @@ def fetch_tide_data(api_key, lat, lon):
     return data
     
 def main():
-    #Background Image
-    '''
-    background_image = """
-        <style>
-        [data-testid="stAppViewContainer"] > .main {
-            background-image: url("https://unblast.com/wp-content/uploads/2018/06/Weather-Icons.jpg");
-            background-size: 100vw 100vh;  # This sets the size to cover 100% of the viewport width and height
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.8;
-        }
-        </style>
-        """
-    #Print Background Image
-    st.markdown(background_image, unsafe_allow_html=True)
-    '''
-    
     st.sidebar.image(image_url, width=100)
     st.sidebar.title("Hello! Welcome to the Weather App")
     st.sidebar.write("Enter the city name to get the weather data:")
